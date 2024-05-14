@@ -1,3 +1,4 @@
+const { privateDecrypt } = require("crypto");
 const Game = require("../models/games");
 
 const getGames = async (req,res,next) => {
@@ -5,7 +6,7 @@ const getGames = async (req,res,next) => {
         const games = await Game.find({ verified: true });
         return res.status(200).json(games);
       } catch (error) {
-        return res.status(400).json("Error en la solicitud");
+        return res.status(400).json("Error en la busqueda");
       }
     };
 
@@ -15,44 +16,44 @@ const getGameById = async (req,res,next) => {
         const game = await Game.findById(id);
         return res.status(200).json(game);
      } catch (error) {
-        return res.status(400).json("Error en la solicitud");
+        return res.status(400).json("Error en la busqueda por ID");
      }
 };
 
 const getGameByCategory = async (req,res,next) => {
     try {
-        const {categoria}= req.params;
-        const games = await Game.findById({categoria});
+        const {category}= req.params;
+        const games = await Game.findById({category});
         return res.status(200).json(games);
      } catch (error) {
-        return res.status(400).json("Error en la solicitud");
+        return res.status(400).json("Error en la busqueda por Category");
      }
 };
 
 const getGamesByPrice = async (req, res, next) => {
     try {
-      const { precio } = req.params;
-      const games = await Game.find({ precio: { $lte: precio } });
+      const { price } = req.params;
+      const games = await Game.find({ price: { $lte: price } });
       return res.status(200).json(games);
     } catch (error) {
-      return res.status(400).json("Error en la solicitud");
+      return res.status(400).json("Error en la solicitud de busueda por Precio");
     }
   };
 
 const postGame = async (req, res, next) => {
   try {
     const newGame = new Game(req.body);
-
+/*
     if (req.user.rol === "admin") {
       newGame.verified = true;
     } else {
       newGame.verified = false;
-    }
+    }*/
     const gameSaved = await newGame.save();
 
     return res.status(201).json(gameSaved);
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(400).json("Error en la carga del Game");
   }
 };
 
@@ -61,7 +62,7 @@ const getGameByAdmin = async (req, res, next) => {
       const games = await Game.find({ verified: false });
       return res.status(200).json(games);
     } catch (error) {
-      return res.status(400).json("Error en la solicitud");
+      return res.status(400).json("Error en la busqueda por Admin");
     }
   };
 
@@ -75,7 +76,7 @@ const updateGame = async (req, res, next) => {
       });
       return res.status(200).json(gameUpdate);
     } catch (error) {
-      return res.status(400).json("Error en la solicitud");
+      return res.status(400).json("Error en el Update del Game");
     }
   };
 
@@ -85,7 +86,7 @@ const updateGame = async (req, res, next) => {
       const gameDeleted = await Game.findByIdAndDelete(id);
       return res.status(200).json(gameDeleted);
     } catch (error) {
-      return res.status(400).json("Error en la solicitud");
+      return res.status(400).json("Error en la eliminación");
     }
   };
         module.exports = {

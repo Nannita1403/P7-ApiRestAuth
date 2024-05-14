@@ -5,8 +5,9 @@ const { connectDB } = require("./src/config/db");
 const gamesRouter = require("./src/api/routes/games");
 
 const app = express();
-connectDB();
 app.use(express.json());
+
+connectDB();
 
 app.use("/api/v1/games", gamesRouter);
 app.use("*", (req, res, next) => {

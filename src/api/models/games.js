@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
-    Nombre: {type: String, require: true },
+    Name: {type: String, require: true },
     Imagen: {type: String, require: true },
-    Precio: {type: Number, require: true },
-    Categoria: {type:String, require: true, 
+    Price: {type: Number, require: true },
+    Category: {type:String, require: true, 
         enum: [
             "Accion", 
             "Aventura", 
