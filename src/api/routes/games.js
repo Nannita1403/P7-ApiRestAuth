@@ -3,7 +3,7 @@ const { getGames, getGameById, getGameByCategory, getGamesByPrice, getGameByAdmi
 const gamesRouter = require("express").Router();
 
 gamesRouter.get("/:id", getGameById);
-gamesRouter.get("/category/:Category", getGameByCategory);
+gamesRouter.get("/category/:category", getGameByCategory);
 gamesRouter.get("/Price/:precio", getGamesByPrice);
 gamesRouter.get("/", getGames);
 gamesRouter.post("/", postGame);
