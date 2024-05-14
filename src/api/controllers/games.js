@@ -3,7 +3,7 @@ const Game = require("../models/games");
 
 const getGames = async (req,res,next) => {
     try {
-        const games = await Game.find({ verified: true });
+        const games = await Game.find(/*{ verified: true }*/);
         return res.status(200).json(games);
       } catch (error) {
         return res.status(400).json("Error en la busqueda");
@@ -32,8 +32,8 @@ const getGameByCategory = async (req,res,next) => {
 
 const getGamesByPrice = async (req, res, next) => {
     try {
-      const { price } = req.params;
-      const games = await Game.find({ price: { $lte: price } });
+      const { precio } = req.params;
+      const games = await Game.find({ Price: { $lte: precio } });
       return res.status(200).json(games);
     } catch (error) {
       return res.status(400).json("Error en la solicitud de busueda por Precio");
@@ -71,10 +71,10 @@ const updateGame = async (req, res, next) => {
       const { id } = req.params;
       const newGame = new Game(req.body);
       newGame._id = id;
-      const gameUpdate = await Game.findByIdAndUpdate(id, newGame, {
+      const gameUpdated = await Game.findByIdAndUpdate(id, newGame, {
         new: true,
       });
-      return res.status(200).json(gameUpdate);
+      return res.status(200).json(gameUpdated);
     } catch (error) {
       return res.status(400).json("Error en el Update del Game");
     }
