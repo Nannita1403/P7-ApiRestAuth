@@ -1,3 +1,4 @@
+const { generateKey } = require("../../config/jwt");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 
@@ -37,19 +38,20 @@ const getUsers = async (req,res,next) => {
 
 const loginUser = async (req,res,next) => {
     try {
-        const user = await User.findOne( 
-            {userName:req.body.userName});
+        const user = await buscarUsuario(req.body.userName);
             if (!user) {
-                return res.status(400).json("Usuario sin existencia")
+                return res.status(400).json("Usuario sin existencia");
             }
             if(bcrypt.compareSync(req.body.password, user.password)) {
-                return res.status(200).json("Te has logueado")
+                const token = generateKey(user._id);
+                return res.status(200).json({user, token});
             } else {
                 return res.status(400).json("La contraseña no es correcta")
             }
-          
     } catch (error) {
         return res.status(400).json ("Error en el login")
     }
 }
+
+
 module.exports = {getUsers, registerUser, loginUser}
