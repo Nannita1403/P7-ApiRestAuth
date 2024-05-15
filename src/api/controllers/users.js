@@ -38,7 +38,8 @@ const getUsers = async (req,res,next) => {
 
 const loginUser = async (req,res,next) => {
     try {
-        const user = await buscarUsuario(req.body.userName);
+        const user = await User.findOne( 
+            {userName:req.body.userName});
             if (!user) {
                 return res.status(400).json("Usuario sin existencia");
             }
