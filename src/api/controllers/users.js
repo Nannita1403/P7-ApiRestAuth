@@ -1,6 +1,7 @@
 const User = require("../models/users");
+const bcrypt = require("bcrypt");
 
-//para registrarse
+//para registrarse los usuarios
 const registerUser = async (req,res,next) => {
     try {
        const newUser = new User({
@@ -10,6 +11,13 @@ const registerUser = async (req,res,next) => {
         imagen: req.body.imagen,
         email: req.body.email,
     });
+        //evito la duplicacion de los usuarios
+       const userUnique = await User.findOne( 
+        {userName:req.body.userName});
+        if(userUnique){
+            return res.status(400).json("Busca otro user");
+        }
+    
        const userSaved = await newUser.save();
        return res.status(201).json(userSaved);
     } catch (error) {
@@ -27,4 +35,21 @@ const getUsers = async (req,res,next) => {
     }
 }
 
-module.exports = {getUsers, registerUser}
+const loginUser = async (req,res,next) => {
+    try {
+        const user = await User.findOne( 
+            {userName:req.body.userName});
+            if (!user) {
+                return res.status(400).json("Usuario sin existencia")
+            }
+            if(bcrypt.compareSync(req.body.password, user.password)) {
+                return res.status(200).json("Te has logueado")
+            } else {
+                return res.status(400).json("La contraseña no es correcta")
+            }
+          
+    } catch (error) {
+        return res.status(400).json ("Error en el login")
+    }
+}
+module.exports = {getUsers, registerUser, loginUser}
