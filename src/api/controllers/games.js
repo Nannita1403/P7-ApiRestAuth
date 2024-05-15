@@ -23,7 +23,7 @@ const getGameById = async (req,res,next) => {
 const getGameByCategory = async (req,res,next) => {
     try {
         const {category}= req.params;
-        const games = await Game.findById({category});
+        const games = await Game.find({category:category});
         return res.status(200).json(games);
      } catch (error) {
         return res.status(400).json("Error en la busqueda por Category");
