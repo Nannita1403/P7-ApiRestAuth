@@ -3,7 +3,7 @@ const Game = require("../models/games");
 
 const getGames = async (req,res,next) => {
     try {
-        const games = await Game.find(/*{ verified: true }*/);
+        const games = await Game.find({ verified: true });
         return res.status(200).json(games);
       } catch (error) {
         return res.status(400).json("Error en la busqueda");
@@ -43,12 +43,12 @@ const getGamesByPrice = async (req, res, next) => {
 const postGame = async (req, res, next) => {
   try {
     const newGame = new Game(req.body);
-/*
+
     if (req.user.rol === "admin") {
       newGame.verified = true;
     } else {
       newGame.verified = false;
-    }*/
+    }
     const gameSaved = await newGame.save();
 
     return res.status(201).json(gameSaved);

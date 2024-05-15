@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const gameSchema = new mongoose.Schema({
     name: {type: String, require: true },
     imagen: {type: String, require: true },
@@ -16,6 +17,7 @@ const gameSchema = new mongoose.Schema({
             "simulacion",
         ],
     },
+    verified: {type:Boolean, require:true, default:false}
 }, {
     timestamps: true,
     collection: "games"
