@@ -5,12 +5,14 @@ const { connectDB } = require("./src/config/db");
 const gamesRouter = require("./src/api/routes/games");
 const platformRouter = require("./src/api/routes/platforms");
 const cors = require("cors");
+const usersRoutes = require("./src/api/routes/users");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 connectDB();
+app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/platforms", platformRouter);
 app.use("/api/v1/games", gamesRouter);
 app.use("*", (req, res, next) => {
